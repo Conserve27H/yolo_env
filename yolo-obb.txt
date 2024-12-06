@@ -1,0 +1,49 @@
+数据集目录结构如下
+
+```
+datav1
+    ├── images
+    │   ├── test
+    │   ├── train
+    │   └── val
+    └── labels
+        ├── train
+        ├── train_original
+        ├── val
+        └── val_original
+注：'train_original'为train原始标注文件
+    'val_original'为val原始标注文件
+    train和val可以不用创建，使用下面代码自动转换为yolo-obb格式
+```
+
+转格式
+
+```
+from ultralytics.data.converter import convert_dota_to_yolo_obb
+convert_dota_to_yolo_obb('./datav1')
+
+注：'./datav1'为数据集目录
+```
+
+训练
+
+```
+yolo obb train data=datav1/datav1.yaml model=yolo11n-obb.pt device=0 epochs=2 batch=4
+```
+
+验证
+
+```
+yolo obb val data=datav1/datav1.yaml model=runs/obb/train/weights/best.pt device=0 batch=4
+```
+
+测试
+
+```
+yolo obb predict model=runs/obb/train/weights/best.pt source='datav1/images/test' device=0 batch=4
+```
+
+
+
+
+
